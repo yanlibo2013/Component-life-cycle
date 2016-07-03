@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="react.js"></script>
+    <script src="JSXTransformer.js"></script>
+</head>
+<body>
+<div id="main"></div>
+<script type="text/jsx">
+    var k = 0;
+    var Component1 = React.createClass({
+        getDefaultProps: function () {
+            console.log('getDefaultProps')
+        },
+        getInitialState: function () {
+            console.log('getInitialState');
+            return {i: 0}
+        },
+        componentWillMount: function () {
+            console.log('componentWillMount')
+        },
+        componentDidMount: function () {
+            console.log('componentDidMount')
+        },
+        componentWillReceiveProps: function (nextProps) {
+            console.log('componentWillReceiveProps');
+            console.log(this.props.k, nextProps.k)
+        },
+        shouldComponentUpdate: function (nextProps, nextState) {
+            console.log('shouldComponentUpdate');
+            console.log(this.state.i, nextState.i);
+            if (this.state.i > 1) {
+                return true;
+            }
+            return false;
+        },
+        componentWillUpdate: function () {
+            console.log('componentWillUpdate')
+        },
+        componentDidUpdate: function () {
+            console.log('componentDidUpdate')
+        },
+        componentWillUnmount: function () {
+            console.log('componentWillUnmount')
+        },
+
+        clickCb: function () {
+            this.setState({
+                i: this.state.i + 1
+            })
+        },
+        clickRender: function () {
+            React.render(
+                    <Component1 k={k++}/>, document.getElementById('main')
+            );
+        },
+        render: function () {
+            console.log("render");
+            return (
+                    <div>
+                        <button id="render" onClick={this.clickRender} type="button">render</button>
+                        <br/>
+                        <br/>
+                        <button id="setSate" type="button" onClick={this.clickCb}>setSate</button>
+                        <br/>
+                        result:
+                        <label>{this.state.i}</label>
+                    </div>
+            );
+        }
+    });
+
+    React.render(
+            <Component1 k={k++} />, document.getElementById('main')
+    );
+
+    var btnSate = document.getElementById('setSate');
+
+    /* btnSate.addEventListener('click', function () {
+     //React.unmountComponentAtNode(div) //点击div2则卸载掉第一个div里的组件
+     }, false)*/
+</script>
+</body>
+</html>
